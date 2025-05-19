@@ -12,6 +12,7 @@ export class MyOrdersComponent implements OnInit {
   orders: OrderResp[] = [];
   loading = true;
   error = '';
+  baseImageUrl = 'http://localhost:8080';
 
   constructor(private orderSvc: OrderService,private router: Router) {}
 
@@ -36,14 +37,14 @@ export class MyOrdersComponent implements OnInit {
   }
 
   onCancel(order: OrderResp) {
-    if (!confirm(`Sipariş #${order.orderId} iptal edilsin mi?`)) {
+    if (!confirm(`Does the order #${order.orderId} should be cancelled?`)) {
       return;
     }
 
     this.orderSvc.cancelOrder(order.orderId)
       .subscribe({
         next: () => {
-          alert(`Sipariş #${order.orderId} başarıyla iptal edildi.`);
+          alert(`Order #${order.orderId} cancelled succesfully.`);
           this.loadOrders();    // listeyi yenile
         },
         error: err => {

@@ -37,7 +37,7 @@ export class CartService {
   addToCart(
     productId: number,
     quantity: number,
-    variantId?: number
+    variantId?: number,
   ): Observable<void> {
 
     if(!this.auth.isAuthenticated()||this.auth.userRole !=='BUYER'){

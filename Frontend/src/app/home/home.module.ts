@@ -8,6 +8,7 @@ import { CategoryQuickLinksComponent } from './components/category-quick-links/c
 import { HeroCarouselComponent } from './components/hero-carousel/hero-carousel.component';
 import { SharedModule } from '../shared/shared.module';
 import { ProductsModule } from '../products/products.module';
+import { CategoryComponent } from './components/category/category.component';
 
 
 
@@ -16,7 +17,8 @@ import { ProductsModule } from '../products/products.module';
     HomeComponent,
     BestSellersComponent,
     CategoryQuickLinksComponent,
-    HeroCarouselComponent
+    HeroCarouselComponent,
+    CategoryComponent
   ],
   imports: [
     CommonModule,

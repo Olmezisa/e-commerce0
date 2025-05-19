@@ -2,7 +2,7 @@
   <input
     [formControl]="searchControl"
     type="text"
-    placeholder="Ürün ara..."
+    placeholder="Search for products..."
     autocomplete="off"
     class="w-full h-10 px-4 pr-10 border-2 border-gray-300 rounded-full focus:outline-none focus:border-primary transition"
   />
@@ -31,7 +31,7 @@
       />
       <div class="flex-1">
         <div class="font-medium text-sm">{{ p.name }}</div>
-        <div class="text-xs text-gray-500">₺{{ p.price | number:'1.2-2' }}</div>
+        <div class="text-xs text-gray-500">${{ p.price | number:'1.2-2' }}</div>
       </div>
     </li>
   </ul>

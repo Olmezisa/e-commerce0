@@ -25,7 +25,7 @@ export class ProductDetailPageComponent implements OnInit {
   variants: ProductVariant[] = [];
   selectedVariant: ProductVariant | null = null;
   quantity = 1;
-
+  baseImageUrl = 'http://localhost:8080';
   reviews: Review[] = [];
   reviewForm!: FormGroup;
   isLoggedIn$: Observable<boolean>;

@@ -35,6 +35,7 @@ public class SecurityConfig {
         this.jwtAuthFilter      = jwtAuthFilter;
         this.userDetailsService = userDetailsService;
     }
+    
 
    @Bean
 public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -51,6 +52,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
           .requestMatchers(HttpMethod.POST, "/api/cart/add").permitAll()
     .requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll() 
           .requestMatchers("/api/cart/**").permitAll()
+          .requestMatchers("/uploads/**").permitAll()
           
 
           .anyRequest().authenticated()

@@ -32,9 +32,10 @@ export class ProductService {
     );
   }
 
-  addProduct(productData: any): Observable<Product> {
-    return this.http.post<Product>(this.apiUrl, productData);
-  }
+  addProduct(formData: FormData): Observable<Product> {
+  return this.http.post<Product>(this.apiUrl, formData);
+}
+
 
   updateProduct(id: number, productData: any): Observable<Product> {
     return this.http.put<Product>(`${this.apiUrl}/${id}`, productData);

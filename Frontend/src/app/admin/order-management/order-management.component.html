@@ -1,18 +1,18 @@
 <h3 class="text-lg font-semibold">Order Management Page</h3>
 <div class="p-4">
-  <h2 class="text-2xl font-bold mb-4">Tüm Siparişler (Admin Paneli)</h2>
+  <h2 class="text-2xl font-bold mb-4">All Orders</h2>
 
-  <div *ngIf="loading">Yükleniyor...</div>
+  <div *ngIf="loading">Loading...</div>
   <div *ngIf="errorMessage" class="text-red-500">{{ errorMessage }}</div>
 
   <table *ngIf="orders.length > 0" class="w-full border border-gray-300">
     <thead>
       <tr class="bg-gray-200 text-left">
-        <th class="p-2">Sipariş ID</th>
-        <th class="p-2">Durum</th>
-        <th class="p-2">Tarih</th>
-        <th class="p-2">Kargo Durumu</th>
-        <th class="p-2">İşlemler</th>
+        <th class="p-2">Order ID</th>
+        <th class="p-2">Status</th>
+        <th class="p-2">Date</th>
+        <th class="p-2">Shipment Status</th>
+        <th class="p-2">Process</th>
       </tr>
     </thead>
     <tbody>
@@ -22,18 +22,18 @@
         <td class="p-2">{{ order.createdAt | date: 'short' }}</td>
         <td class="p-2">{{ order.shipmentStatus || '-' }}</td>
         <td class="p-2">
-          <button (click)="viewDetails(order)" class="text-blue-600">Detay</button>
-          <button (click)="cancelOrder(order.orderId)" class="ml-4 text-red-600">İptal</button>
+          <button (click)="viewDetails(order)" class="text-blue-600">Detail</button>
+          <button (click)="cancelOrder(order.orderId)" class="ml-4 text-red-600">Cancel</button>
         </td>
       </tr>
     </tbody>
   </table>
 
   <div *ngIf="selectedOrder" class="mt-6 p-4 border border-gray-400 rounded">
-    <h3 class="text-lg font-semibold mb-2">Sipariş #{{ selectedOrder.orderId }} Detayları</h3>
+    <h3 class="text-lg font-semibold mb-2">Order #{{ selectedOrder.orderId }} Details</h3>
     <ul>
       <li *ngFor="let item of selectedOrder.items">
-        {{ item.productName }} - {{ item.quantity }} adet ({{ item.unitPrice }}₺) - Durum: {{ item.status }}
+        {{ item.productName }} - {{ item.quantity }} quantity ({{ item.unitPrice }}$) - Status: {{ item.status }}
       </li>
     </ul>
   </div>

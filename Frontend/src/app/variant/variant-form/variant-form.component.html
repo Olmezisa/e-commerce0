@@ -7,31 +7,31 @@
     </div>
 
     <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Seçenek Adı</label>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Option Name</label>
       <input formControlName="optionName" placeholder="Örn: Renk" class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-green-200"/>
     </div>
   </div>
 
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
     <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Seçenek Değeri</label>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Option Value</label>
       <input formControlName="optionValue" placeholder="Örn: Kırmızı" class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-green-200"/>
     </div>
 
     <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Görsel URL</label>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
       <input formControlName="imageUrl" placeholder="https://..." class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-green-200"/>
     </div>
   </div>
 
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
     <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Fiyat (₺)</label>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Price ($)</label>
       <input type="number" formControlName="price" placeholder="Fiyat" class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-green-200"/>
     </div>
 
     <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Stok</label>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Stock</label>
       <input type="number" formControlName="stock" placeholder="Stok miktarı" class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-green-200"/>
     </div>
   </div>
@@ -41,7 +41,7 @@
       type="submit"
       class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
     >
-      {{ variant ? 'Varyantı Güncelle' : 'Varyant Ekle' }}
+      {{ variant ? 'Update Variant' : 'Add Variant' }}
     </button>
   </div>
 </form>

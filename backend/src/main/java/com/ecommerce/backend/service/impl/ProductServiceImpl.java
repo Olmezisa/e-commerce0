@@ -6,11 +6,13 @@ import com.ecommerce.backend.entity.*;
 import com.ecommerce.backend.repository.CategoryRepository;
 import com.ecommerce.backend.repository.ProductRepository;
 import com.ecommerce.backend.repository.ProductVariantRepository;
+import com.ecommerce.backend.service.FileStorageService;
 import com.ecommerce.backend.service.ProductService;
 import com.ecommerce.backend.service.UserService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
@@ -23,25 +25,29 @@ public class ProductServiceImpl implements ProductService {
     private final UserService userService;
     private final ProductVariantRepository variantRepository;
     private final CategoryRepository categoryRepository;
+    private final FileStorageService fileStorageService;
 
     public ProductServiceImpl(
         ProductRepository productRepository,
         UserService userService,
         ProductVariantRepository variantRepository,
-        CategoryRepository categoryRepository
+        CategoryRepository categoryRepository,
+        FileStorageService fileStorageService
     ) {
         this.productRepository = productRepository;
         this.userService = userService;
         this.variantRepository = variantRepository;
         this.categoryRepository = categoryRepository;
+        this.fileStorageService=fileStorageService;
     }
 
     @Override
-    public Product createProduct(ProductRequest request) {
+    public Product createProduct(ProductRequest request,MultipartFile imageFile) {
         Product product = new Product();
+        String imageUrl = fileStorageService.saveFile(imageFile);
         product.setName(request.getName());
         product.setDescription(request.getDescription());
-        product.setImageUrl(request.getImageUrl());
+        product.setImageUrl(imageUrl);
         product.setPrice(request.getPrice());
         product.setStock(request.getStock());
         product.setStatus(ProductStatus.PENDING);
@@ -59,10 +65,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product updateProduct(Long id, ProductRequest request) {
         Product product = getProductById(id);
+        String imageUrl = fileStorageService.saveFile(request.getImage());
 
         product.setName(request.getName());
         product.setDescription(request.getDescription());
-        product.setImageUrl(request.getImageUrl());
+        product.setImageUrl(imageUrl);
         product.setPrice(request.getPrice());
         product.setStock(request.getStock());
         product.setStatus(request.getStatus());

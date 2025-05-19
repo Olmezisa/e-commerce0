@@ -1,35 +1,35 @@
 <!-- Yükleniyor Göstergesi -->
 <div *ngIf="loading" class="text-center text-gray-600 py-4">
-  <span class="animate-pulse">Varyantlar yükleniyor...</span>
+  <span class="animate-pulse">Loading...</span>
 </div>
 
 <!-- Varyant Tablosu -->
 <table *ngIf="!loading" class="min-w-full bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
   <thead class="bg-gray-100 text-left text-sm text-gray-700 uppercase tracking-wider">
     <tr>
-      <th class="px-6 py-3">Seçenek</th>
-      <th class="px-6 py-3">Fiyat</th>
-      <th class="px-6 py-3">Stok</th>
-      <th class="px-6 py-3 text-right">İşlemler</th>
+      <th class="px-6 py-3">Options</th>
+      <th class="px-6 py-3">Price</th>
+      <th class="px-6 py-3">Stock</th>
+      <th class="px-6 py-3 text-right">Actions</th>
     </tr>
   </thead>
   <tbody class="divide-y divide-gray-200 text-sm text-gray-800">
     <tr *ngFor="let v of variants" class="hover:bg-gray-50 transition">
       <td class="px-6 py-4">{{ v.optionName }}: {{ v.optionValue }}</td>
-      <td class="px-6 py-4">{{ v.price | currency:'TRY':'symbol':'1.2-2' }}</td>
+      <td class="px-6 py-4">{{ v.price | currency:'USD':'symbol':'1.2-2' }}</td>
       <td class="px-6 py-4">{{ v.stock }}</td>
       <td class="px-6 py-4 text-right space-x-2">
         <button
           (click)="onEdit(v)"
           class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-xs font-medium rounded hover:bg-blue-700 transition"
         >
-          Düzenle
+          Edit
         </button>
         <button
           (click)="onDelete(v.id)"
           class="inline-flex items-center px-4 py-2 bg-red-500 text-white text-xs font-medium rounded hover:bg-red-600 transition"
         >
-          Sil
+          Delete
         </button>
       </td>
     </tr>

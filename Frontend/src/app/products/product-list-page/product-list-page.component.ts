@@ -19,6 +19,8 @@ export class ProductListPageComponent implements OnInit {
   categoryName: string | null = null;
   searchTerm = '';
   statusFilter: 'PENDING' | 'ACTIVE' | 'BANNED' = 'ACTIVE';
+  baseImageUrl = 'http://localhost:8080';
+
 
   products: Product[] = [];
   filtered: Product[] = [];

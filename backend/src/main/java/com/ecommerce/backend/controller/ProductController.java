@@ -7,13 +7,16 @@ import com.ecommerce.backend.entity.Product;
 import com.ecommerce.backend.entity.ProductStatus;
 import com.ecommerce.backend.entity.User;
 import com.ecommerce.backend.service.ProductService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.security.access.prepost.PreAuthorize;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -27,11 +30,20 @@ public class ProductController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('SELLER')")
-    public ResponseEntity<Product> createProduct(@RequestBody ProductRequest request) {
-        Product product = productService.createProduct(request);
+@PreAuthorize("hasRole('SELLER')")
+public ResponseEntity<Product> createProduct(
+    @RequestPart("product") String productJson,
+    @RequestPart("image") MultipartFile imageFile
+) {
+    try {
+        ObjectMapper mapper = new ObjectMapper();
+        ProductRequest request = mapper.readValue(productJson, ProductRequest.class);
+        Product product = productService.createProduct(request, imageFile);
         return ResponseEntity.ok(product);
+    } catch (IOException e) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid product JSON", e);
     }
+}
 
     @GetMapping
     public ResponseEntity<List<ProductResponse>> getProducts(

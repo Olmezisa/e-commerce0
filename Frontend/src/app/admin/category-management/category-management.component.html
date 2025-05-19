@@ -2,17 +2,16 @@
 
 
   <div class="flex items-center justify-between">
-    <h2 class="text-3xl font-bold text-gray-800">Kategori Yönetimi</h2>
+    <h2 class="text-3xl font-bold text-gray-800">Category Management</h2>
   </div>
 
 
   <div class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
-    <h3 class="text-lg font-semibold text-gray-700 mb-4">Yeni Kategori Ekle</h3>
+    <h3 class="text-lg font-semibold text-gray-700 mb-4">Add New Category</h3>
     <form [formGroup]="categoryForm" (ngSubmit)="addCategory()" class="flex flex-col sm:flex-row gap-4">
       <input
         formControlName="name"
         type="text"
-        placeholder="Kategori adı girin..."
         class="flex-1 p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-200"
       />
       <button
@@ -20,14 +19,14 @@
         [disabled]="categoryForm.invalid"
         class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        Ekle
+        Add
       </button>
     </form>
   </div>
 
 
   <div class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
-    <h3 class="text-lg font-semibold text-gray-700 mb-4">Eklenmiş Kategoriler</h3>
+    <h3 class="text-lg font-semibold text-gray-700 mb-4">Added Categories</h3>
 
     <ul class="divide-y divide-gray-100">
       <li *ngFor="let c of categories" class="py-3 flex items-center justify-between group">
@@ -36,12 +35,12 @@
   (click)="deleteCategory(c.id!)"
   class="text-sm text-red-600 font-medium opacity-100 hover:underline transition"
 >
-  Sil
+  Delete
 </button>
     </ul>
 
     <div *ngIf="categories.length === 0" class="text-center text-gray-500 mt-6">
-      Henüz kategori eklenmedi.
+      No categories yet.
     </div>
   </div>
 

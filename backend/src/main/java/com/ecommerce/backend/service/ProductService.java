@@ -9,8 +9,10 @@ import com.ecommerce.backend.entity.ProductVariant;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public interface ProductService {
-    Product createProduct(ProductRequest request);
+    Product createProduct(ProductRequest request,MultipartFile imageFile);
     List<Product> getAllProducts();
     Product getProductById(Long id);
     Product updateProduct(Long id, ProductRequest request);

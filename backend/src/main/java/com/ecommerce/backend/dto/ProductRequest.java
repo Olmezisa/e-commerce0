@@ -2,12 +2,13 @@ package com.ecommerce.backend.dto;
 
 import com.ecommerce.backend.entity.ProductStatus;
 import java.math.BigDecimal;
+import org.springframework.web.multipart.MultipartFile;
 
 public class ProductRequest {
 
     private String name;
     private String description;
-    private String imageUrl;
+    private MultipartFile image;
     private BigDecimal price;
     private int stock;
     private ProductStatus status;
@@ -30,14 +31,7 @@ public class ProductRequest {
         this.description = description;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
+    
     public BigDecimal getPrice() {
         return price;
     }
@@ -72,5 +66,11 @@ public class ProductRequest {
     }
     public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
+    }
+    public void setImage(MultipartFile image) {
+        this.image = image;
+    }
+    public MultipartFile getImage() {
+        return image;
     }
 }

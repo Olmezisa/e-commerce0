@@ -11,14 +11,14 @@ export class HeroCarouselComponent {
     {
       title: 'Exclusive Sale',
       subtitle: 'Save Big',
-      discount: 'Up to 70% Off',
-      image: '/assets/hero1.jpg'
+      discount: 'Up to 20% Off',
+      image: 'assets/hero1.jpg'
     },
     {
       title: 'New Arrivals',
       subtitle: 'Trend Fashion',
       discount: 'Check out now',
-      image: '/assets/hero2.jpg'
+      image: 'assets/hero2.jpg'
     }
   ];
 }

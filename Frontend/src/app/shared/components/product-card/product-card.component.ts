@@ -16,6 +16,7 @@ export class ProductCardComponent {
 
   @Output() viewDetails = new EventEmitter<number>();//view details butonuna tıkladığında event fırlatır
   @Output() selectCompare = new EventEmitter<Product>();//compare butonuna tıkladığında event fırlatır
+  baseImageUrl = 'http://localhost:8080';
 
   constructor(private wishList:WishlistService){}
 
