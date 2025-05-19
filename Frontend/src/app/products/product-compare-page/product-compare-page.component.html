@@ -1,0 +1,67 @@
+
+<main class="container mx-auto px-4 py-10 space-y-10">
+
+  <!-- 🔄 Yükleniyor animasyonu -->
+  <div *ngIf="loading" class="flex flex-col items-center justify-center py-20 text-center">
+    <div class="w-12 h-12 border-4 border-blue-400 border-t-transparent rounded-full animate-spin"></div>
+    <p class="mt-4 text-gray-500 text-lg font-medium">Ürünler yükleniyor...</p>
+  </div>
+
+  <!-- ✅ Karşılaştırma Tablosu -->
+  <div *ngIf="!loading && product1 && product2; else loadingOrMissing" class="overflow-x-auto">
+    <div class="bg-white rounded-xl shadow border border-gray-200">
+      <table class="min-w-full divide-y divide-gray-200 text-sm text-left">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="px-6 py-4"></th>
+            <th class="px-6 py-4 text-center">
+              <img [src]="product1.imageUrl" alt="{{ product1.name }}" class="w-24 h-24 mx-auto mb-2 object-contain rounded" />
+              <div class="font-semibold text-gray-800">{{ product1.name }}</div>
+            </th>
+            <th class="px-6 py-4 text-center">
+              <img [src]="product2.imageUrl" alt="{{ product2.name }}" class="w-24 h-24 mx-auto mb-2 object-contain rounded" />
+              <div class="font-semibold text-gray-800">{{ product2.name }}</div>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-100">
+          <tr>
+            <td class="px-6 py-4 font-medium text-gray-700">Fiyat</td>
+            <td class="px-6 py-4 text-center text-green-600 font-semibold">{{ product1.price | currency:'TRY' }}</td>
+            <td class="px-6 py-4 text-center text-green-600 font-semibold">{{ product2.price | currency:'TRY' }}</td>
+          </tr>
+          <tr>
+            <td class="px-6 py-4 font-medium text-gray-700">Açıklama</td>
+            <td class="px-6 py-4">{{ product1.description }}</td>
+            <td class="px-6 py-4">{{ product2.description }}</td>
+          </tr>
+          <tr>
+            <td class="px-6 py-4 font-medium text-gray-700">Stok</td>
+            <td class="px-6 py-4 text-center">{{ product1.stock }}</td>
+            <td class="px-6 py-4 text-center">{{ product2.stock }}</td>
+          </tr>
+          <tr>
+            <td class="px-6 py-4 font-medium text-gray-700">Kategori</td>
+            <td class="px-6 py-4 text-center">{{ product1.category?.name || 'Yok' }}</td>
+            <td class="px-6 py-4 text-center">{{ product2.category?.name || 'Yok' }}</td>
+          </tr>
+          <tr>
+            <td class="px-6 py-4 font-medium text-gray-700">Puan</td>
+            <td class="px-6 py-4 text-center">{{ product1.rating }} ⭐</td>
+            <td class="px-6 py-4 text-center">{{ product2.rating }} ⭐</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ❌ Eksik Ürün -->
+  <ng-template #loadingOrMissing>
+    <div class="text-center py-12">
+      <p class="text-red-600 text-xl font-semibold">Bir veya iki ürün karşılaştırılamadı.</p>
+      <p class="text-gray-500 mt-2">Lütfen geçerli iki ürün seçtiğinizden emin olun.</p>
+    </div>
+  </ng-template>
+</main>
+
+<app-footer></app-footer>

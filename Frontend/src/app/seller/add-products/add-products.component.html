@@ -1,0 +1,85 @@
+<section class="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-md border border-gray-200">
+  <h2 class="text-2xl font-bold text-gray-800 mb-6">Yeni Ürün Ekle</h2>
+
+  <form
+    [formGroup]="productForm"
+    (ngSubmit)="onSubmit()"
+    class="space-y-6"
+  >
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Ürün Adı</label>
+      <input
+        formControlName="name"
+        type="text"
+        placeholder="Örn: Kablosuz Kulaklık"
+        class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-green-200"
+      />
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Açıklama</label>
+      <textarea
+        formControlName="description"
+        placeholder="Ürün açıklamasını buraya girin..."
+        rows="3"
+        class="w-full p-3 border border-gray-300 rounded-lg resize-none focus:ring focus:ring-green-200"
+      ></textarea>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Fiyat (₺)</label>
+        <input
+          formControlName="price"
+          type="number"
+          placeholder="Fiyat"
+          class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-green-200"
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Stok</label>
+        <input
+          formControlName="stock"
+          type="number"
+          placeholder="Stok miktarı"
+          class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-green-200"
+        />
+      </div>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Görsel URL</label>
+      <input
+        formControlName="imageUrl"
+        type="text"
+        placeholder="https://..."
+        class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-green-200"
+      />
+    </div>
+
+    <!-- ✅ Kategori Dropdown -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
+      <select
+        formControlName="categoryId"
+        class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-green-200"
+      >
+        <option value="">Kategori Seçin</option>
+        <option *ngFor="let c of categories" [value]="c.id">
+          {{ c.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="pt-4">
+      <button
+        type="submit"
+        class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+        [disabled]="productForm.invalid"
+      >
+        Ürünü Ekle
+      </button>
+    </div>
+  </form>
+</section>

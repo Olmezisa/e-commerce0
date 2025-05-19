@@ -1,0 +1,7 @@
+<div class="container mx-auto p-6 max-w-lg">
+  <h2 class="text-2xl mb-4">Ödeme</h2>
+  <p class="mb-2">Toplam: {{shipping.totalPrice | currency:'TRY':'symbol'}}</p>
+  <div id="card-element" class="border p-4 rounded mb-4"></div>
+  <button (click)="pay()" class="btn btn-green w-full">Ödemeyi Tamamla</button>
+  <p *ngIf="errorMessage" class="text-red-600 mt-3">{{errorMessage}}</p>
+</div>

@@ -1,0 +1,47 @@
+
+<div class="flex h-screen bg-gray-100">
+
+  <aside class="w-64 bg-gray-700 text-white flex flex-col">
+    <div class="px-6 py-8 text-2xl font-bold">ADMIN PANEL</div>
+    <nav class="flex-1 px-4">
+      <ul class="space-y-2">
+        <li>
+          <a routerLink="dashboard" routerLinkActive="bg-gray-600"
+             class="block px-4 py-2 rounded hover:bg-gray-600 transition">
+            Dashboard
+          </a>
+        </li>
+        <li>
+          <a routerLink="products/pending" routerLinkActive="bg-gray-600"
+             class="block px-4 py-2 rounded hover:bg-gray-600 transition">
+            Product Management
+          </a>
+        </li>
+        <li>
+          <a routerLink="orders" routerLinkActive="bg-gray-600"
+             class="block px-4 py-2 rounded hover:bg-gray-600 transition">
+            Order Management
+          </a>
+        </li>
+        <li>
+          <a routerLink="users" routerLinkActive="bg-gray-600"
+             class="block px-4 py-2 rounded hover:bg-gray-600 transition">
+            Kullanıcı Yönetimi
+          </a>
+        </li>
+
+        <li>
+          <a routerLink="categories" routerLinkActive="bg-gray-600"
+             class="block px-4 py-2 rounded hover:bg-gray-600 transition">
+            Kategori Yönetimi
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+
+  <main class="flex-1 overflow-auto p-6">
+    <router-outlet></router-outlet>
+  </main>
+</div>

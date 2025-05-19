@@ -1,0 +1,138 @@
+/* header.component.css */
+
+/* 1) Tema değişkenleri (sadece bu component içinde) */
+:host {
+  --primary: #2874f0;      /* Flipkart mavi */
+  --secondary: #ff6161;    /* Hover için kırmızı ton */
+  --accent: #fb641b;       /* Sepet rozetleri */
+  --dark-text: #212121;
+  --muted-text: #878787;
+}
+
+
+/* 2) Top Bar */
+:host .bg-primary {
+  background: linear-gradient(135deg, #0038a8, #2874f0);
+  padding: 0.75rem 0;           /* Yükseklik + iç boşluk biraz arttı */
+  position: relative;
+  overflow: hidden;
+}
+:host .bg-primary a {
+  color: #fff;
+  text-decoration: none;
+}
+:host .bg-primary a:hover {
+  color: var(--secondary);
+}
+
+/* header.component.css */
+
+/* Link container’ına opsiyonel bir sınıf ekersen daha okunaklı olur,
+   ama doğrudan .bg-primary .container i de kullanabilirsin: */
+   :host .bg-primary .container a:not(:last-child)::after {
+    content: "";
+    display: inline-block;
+    /* Separator kalınlığı ve uzunluğu */
+    width: 1px;
+    height: 1em;
+    /* Rengi: %60 opak beyaz */
+    background-color: rgba(255,255,255,0.6);
+    /* Link metni ile separator arası boşluk */
+    margin: 0 2rem;
+    vertical-align: middle;
+  }
+
+
+
+/* 3) Main Bar gölgesi ve metin renkleri */
+:host .shadow-md {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+:host .text-primary {
+  color: var(--primary);
+}
+:host .text-secondary {
+  color: var(--secondary);
+}
+:host .text-dark {
+  color: var(--dark-text);
+}
+
+/* 4) Logo animasyonu */
+:host .animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4,0,0.6,1) infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: 1; }
+  50%     { opacity: 0.6; }
+}
+
+
+
+/* 5) Arama çubuğu */
+:host app-search-bar {
+  display: block;
+  position: relative;
+}
+:host app-search-bar input {
+  width: 100%;
+  height: 40px;
+  padding: 0 1rem;
+  border: 1px solid #dfe1e5;
+  border-radius: 2px;
+  font-size: 0.9rem;
+  color: var(--dark-text);
+}
+:host app-search-bar input::placeholder {
+  color: var(--muted-text);
+}
+:host app-search-bar button {
+  position: absolute;
+  right: 2px; top: 2px; bottom: 2px;
+  width: 36px;
+  border: none;
+  background: var(--primary);
+  border-radius: 0 2px 2px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+:host app-search-bar button mat-icon {
+  color: #fff;
+}
+
+/* 6) Mat-Button hover efektleri */
+:host button[mat-button] {
+  transition: color .2s, transform .2s;
+}
+:host button[mat-button]:hover {
+  color: var(--secondary);
+  transform: scale(1.05);
+}
+
+/* 7) Sepet rozeti */
+:host .bg-accent {
+  background-color: var(--accent);
+}
+:host .bg-accent.text-white {
+  color: #fff;
+}
+
+/* 8) Küçük ekranlarda satır düzeni */
+@media (max-width: 768px) {
+  :host .container {
+    flex-wrap: wrap;
+    padding: 0.5rem 1rem;
+  }
+  :host app-search-bar {
+    order: 3;
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+  :host .flex.items-center.space-x-8 {
+    width: 100%;
+    justify-content: space-around;
+    margin-top: 0.5rem;
+  }
+}

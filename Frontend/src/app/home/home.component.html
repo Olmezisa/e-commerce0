@@ -1,0 +1,12 @@
+<main class="container mx-auto p-4 space-y-6">
+  <!-- Hero Banner -->
+  <app-hero-carousel></app-hero-carousel>
+
+  <!-- Kategori bağlantıları -->
+  <app-category-quick-links (categorySelected)="onCategorySelected($event)"></app-category-quick-links>
+
+  <!-- Çok Satanlar -->
+  <app-best-sellers></app-best-sellers>
+
+<app-product-list-page></app-product-list-page>
+</main>

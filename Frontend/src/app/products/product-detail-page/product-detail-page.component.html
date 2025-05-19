@@ -1,0 +1,156 @@
+<main class="max-w-7xl mx-auto p-6">
+
+  <!-- İçerik yalnızca loading=false ise gösterilecek -->
+  <ng-container *ngIf="!loading; else loadingTpl">
+
+    <!-- Ürün yoksa notFoundTpl, varsa detaylar -->
+    <ng-container *ngIf="product; else notFoundTpl">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+
+        <!-- Görseller -->
+        <div>
+          <img
+            [src]="product!.imageUrl"
+            [alt]="product!.name"
+            class="w-full h-[400px] object-contain rounded-xl border mb-4"
+          />
+          <div class="flex space-x-2">
+            <img
+              *ngFor="let i of [1,2,3]"
+              [src]="product!.imageUrl"
+              class="w-16 h-16 object-cover rounded border cursor-pointer"
+            />
+          </div>
+        </div>
+
+        <!-- Ürün Bilgileri -->
+        <div class="space-y-6">
+          <h1 class="text-3xl font-bold">{{ product!.name }}</h1>
+          <p class="text-gray-600">{{ product!.description }}</p>
+
+          <p *ngIf="product!.category">
+            <span class="font-semibold">Kategori:</span>
+            {{ product!.category }}
+          </p>
+          <p *ngIf="product!.seller?.fullName">
+            <span class="font-semibold">Satıcı:</span>
+            {{ product!.seller?.fullName }}
+          </p>
+
+          <p class="text-2xl text-red-600 font-semibold">
+            {{ product!.price | currency:'TRY':'symbol' }}
+          </p>
+
+          <!-- Varyant Seçimi -->
+          <div *ngIf="variants.length">
+            <label class="block mb-1 text-sm">Seçenek</label>
+            <select [(ngModel)]="selectedVariant" class="w-full border rounded p-2">
+              <option *ngFor="let v of variants" [ngValue]="v">
+                {{ v.optionName }}: {{ v.optionValue }} –
+                {{ v.price | currency:'TRY':'symbol' }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Adet -->
+          <div class="flex items-center space-x-2">
+            <label class="text-sm">Adet</label>
+            <input
+              type="number" min="1"
+              [(ngModel)]="quantity"
+              class="w-16 border p-2 rounded text-center"
+            />
+          </div>
+
+          <!-- Butonlar -->
+          <div class="flex space-x-4">
+            <button
+              (click)="addToCart()"
+              class="px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700"
+            >
+              Sepete Ekle
+            </button>
+            <button
+              class="px-6 py-3 border rounded hover:bg-gray-100"
+              [disabled]="!(isLoggedIn$ | async)"
+            >
+              Favori
+            </button>
+          </div>
+
+          <!-- Puan ve Yorum Sayısı -->
+          <div *ngIf="product!.rating != null" class="mt-4">
+            ⭐ {{ product!.rating }} / 5 ({{ reviews.length }} yorum)
+          </div>
+        </div>
+      </div>
+
+      <!-- Yorumlar Bölümü -->
+      <section class="mt-10">
+        <h2 class="text-xl font-semibold mb-4">Yorumlar</h2>
+
+        <div *ngIf="reviews.length; else noReviewsTpl">
+          <div *ngFor="let r of reviews" class="mb-4 border p-4 rounded">
+            <div class="font-semibold">⭐ {{ r.rating }} / 5</div>
+            <div class="text-gray-700">{{ r.comment }}</div>
+            <div class="text-xs text-gray-500 mt-1">
+              — {{ r.userName }}, {{ r.date }}
+            </div>
+          </div>
+        </div>
+
+        <ng-template #noReviewsTpl>
+          <p class="text-gray-500">Henüz yorum yapılmamış.</p>
+        </ng-template>
+
+        <!-- Yorum Formu -->
+        <form
+          *ngIf="isLoggedIn$ | async"
+          [formGroup]="reviewForm"
+          (ngSubmit)="submitReview()"
+          class="space-y-4 mt-6"
+        >
+          <div>
+            <label class="block text-sm font-medium">Puan</label>
+            <select formControlName="rating" class="border rounded p-2 w-24">
+              <option *ngFor="let r of [1,2,3,4,5]" [value]="r">{{ r }}</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium">Yorum</label>
+            <textarea
+              formControlName="comment"
+              class="border rounded w-full p-2 h-24"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+            [disabled]="reviewForm.invalid"
+          >
+            Yorumu Gönder
+          </button>
+        </form>
+
+        <p *ngIf="!(isLoggedIn$ | async)" class="mt-4 text-sm text-gray-500">
+          Yorum yapabilmek için giriş yapmalısınız.
+        </p>
+      </section>
+
+    </ng-container>
+
+    <!-- Ürün bulunamadı -->
+    <ng-template #notFoundTpl>
+      <div class="text-center py-20 text-lg">Ürün bulunamadı.</div>
+    </ng-template>
+
+  </ng-container>
+
+  <!-- Yükleniyor… Spinner -->
+  <ng-template #loadingTpl>
+    <div class="text-center py-20 text-lg font-medium">Yükleniyor…</div>
+  </ng-template>
+
+</main>

@@ -1,0 +1,184 @@
+<!-- 1) Top Bar -->
+<div class="bg-primary text-white">
+  <div class="container mx-auto flex justify-end header-links py-2 text-08">
+    <a routerLink="#" class="hover:text-secondary">İndirim Kuponlarım</a>
+    <a></a>
+    <a routerLink="/auth/seller-register" class="hover:text-secondary">NDNS'de Satış Yap</a>
+    <a></a>
+    <a routerLink="#" class="hover:text-secondary">Hakkımızda</a>
+    <a></a>
+    <a routerLink="#" class="hover:text-secondary">Yardım &amp; Destek</a>
+  </div>
+</div>
+
+<!-- 2) Main Bar -->
+<div class="bg-white shadow-md">
+  <div class="container mx-auto flex flex-wrap items-center justify-between h-auto md:h-18 px-4 py-2">
+    <!-- Logo -->
+    <div class="flex items-center space-x-4 mb-2 md:mb-0">
+      <button
+        routerLink="/home"
+        class="!text-2xl font-bold text-primary animate-pulse transition-all duration-300 ease-in-out hover:text-secondary hover:scale-105 hover:-rotate-1"
+      >
+        NDNS
+      </button>
+    </div>
+
+    <!-- Arama Çubuğu -->
+    <div class="flex-1 max-w-xl w-full px-4 mb-2 md:mb-0">
+      <app-search-bar (search)="onSearch($event)"></app-search-bar>
+    </div>
+
+    <!-- Kullanıcı Durumu -->
+    <ng-container *ngIf="isLoggedIn$ | async; then loggedTpl; else guestTpl"></ng-container>
+
+    <!-- Guest Template -->
+    <ng-template #guestTpl>
+      <div class="flex flex-wrap md:flex-nowrap items-center text-dark gap-x-10">
+        <!-- Login Menü -->
+        <div class="flex items-center">
+          <button
+            mat-button
+            [matMenuTriggerFor]="guestMenu"
+            class="!flex flex-col items-center text-sm hover:text-primary"
+          >
+            <mat-icon class="text-primary">person</mat-icon>
+            <span>Login</span>
+          </button>
+          <mat-menu #guestMenu="matMenu" yPosition="below" xPosition="after" overlapTrigger="false">
+            <button mat-menu-item routerLink="/auth/signup">
+              <mat-icon class="text-secondary">person_add</mat-icon>
+              <span>Register</span>
+            </button>
+            <button mat-menu-item routerLink="/auth/login">
+              <mat-icon class="text-secondary">login</mat-icon>
+              <span>Login</span>
+            </button>
+          </mat-menu>
+        </div>
+
+        <!-- Wishlist -->
+        <button mat-button routerLink="/wishlist" class="flex flex-col items-center text-sm hover:text-secondary">
+          <mat-icon class="!text-red-600">favorite</mat-icon>
+          <span>Favorites</span>
+        </button>
+
+        <!-- Cart -->
+        <button
+          mat-button
+          routerLink="/cart/cartlist"
+          class="relative flex flex-col items-center text-sm hover:text-secondary"
+        >
+          <mat-icon class="text-primary">shopping_cart</mat-icon>
+          <span>My Cart</span>
+          <span class="absolute -top-1 -right-1 bg-accent text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
+            {{ (cartCount$ | async) || 0 }}
+          </span>
+        </button>
+      </div>
+    </ng-template>
+
+    <!-- Logged-in Template -->
+    <ng-template #loggedTpl>
+      <div class="flex flex-wrap md:flex-nowrap items-center text-dark gap-x-10">
+
+        <!-- Admin Panel -->
+        <ng-container *ngIf="isAdmin$ | async">
+          <button
+            mat-button
+            routerLink="/admin"
+            class="!flex flex-col items-center text-sm hover:text-primary"
+          >
+            <mat-icon class="text-secondary">admin_panel_settings</mat-icon>
+            <span>Admin</span>
+          </button>
+        </ng-container>
+
+        <!-- Seller Panel -->
+        <ng-container *ngIf="isSeller$ | async">
+          <button
+            mat-button
+            routerLink="/seller/dashboard"
+            class="!flex flex-col items-center text-sm hover:text-primary"
+          >
+            <mat-icon class="text-secondary">dashboard</mat-icon>
+            <span>Seller Dashboard</span>
+          </button>
+        </ng-container>
+
+        <!-- My Account Button (All Roles) -->
+        <div class="flex flex-col items-center">
+          <button
+            mat-button
+            [matMenuTriggerFor]="userMenu"
+            class="flex flex-col items-center text-sm hover:text-primary text-center"
+          >
+            <mat-icon class="text-primary">person</mat-icon>
+            <span>My Account</span>
+          </button>
+        </div>
+
+        <!-- Wishlist & Cart (Only for Buyer) -->
+        <ng-container *ngIf="isBuyer$ | async">
+          <button mat-button routerLink="/wishlist" class="flex flex-col items-center text-sm hover:text-secondary">
+            <mat-icon class="!text-red-600">favorite</mat-icon>
+            <span>Favorites</span>
+          </button>
+          <button mat-button routerLink="/cart/cartlist" class="relative flex flex-col items-center text-sm hover:text-secondary">
+            <mat-icon class="text-primary">shopping_cart</mat-icon>
+            <span>My Cart</span>
+            <span class="absolute -top-1 -right-1 bg-accent text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
+              {{ (cartCount$ | async) || 0 }}
+            </span>
+          </button>
+        </ng-container>
+      </div>
+
+      <!-- Shared Mat Menu -->
+      <mat-menu #userMenu="matMenu" yPosition="below" xPosition="after" overlapTrigger="false">
+        <div class="px-4 py-2 border-b">
+          <mat-icon>person</mat-icon>
+          <span class="ml-2 font-medium">
+            {{ (currentUser$ | async)?.fullName }}
+          </span>
+        </div>
+
+        <!-- Buyer Menus -->
+        <ng-container *ngIf="isBuyer$ | async">
+          <button mat-menu-item (click)="goToOrders()">
+            <mat-icon class="text-secondary">inventory_2</mat-icon>
+            <span>My Orders</span>
+          </button>
+          <button mat-menu-item (click)="goToOrderHistory()">
+            <mat-icon class="text-secondary">inventory</mat-icon>
+            <span>Order History</span>
+          </button>
+          <button mat-menu-item (click)="goToAccount()">
+            <mat-icon class="text-secondary">person</mat-icon>
+            <span>Account Information</span>
+          </button>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon class="text-secondary">exit_to_app</mat-icon>
+            <span>Logout</span>
+          </button>
+        </ng-container>
+
+        <!-- Seller Menus -->
+        <ng-container *ngIf="isSeller$ | async">
+          <button mat-menu-item (click)="logout()">
+            <mat-icon class="text-secondary">exit_to_app</mat-icon>
+            <span>Logout</span>
+          </button>
+        </ng-container>
+
+        <!-- Admin/Other Menus -->
+        <ng-container *ngIf="!(isBuyer$ | async) && !(isSeller$ | async)">
+          <button mat-menu-item (click)="logout()">
+            <mat-icon class="text-secondary">exit_to_app</mat-icon>
+            <span>Logout</span>
+          </button>
+        </ng-container>
+      </mat-menu>
+    </ng-template>
+  </div>
+</div>

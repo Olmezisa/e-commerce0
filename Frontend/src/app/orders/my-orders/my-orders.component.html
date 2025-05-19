@@ -1,0 +1,88 @@
+<!-- src/app/my-orders/my-orders.component.html -->
+<div class="container mx-auto p-6 max-w-3xl">
+  <h2 class="text-2xl font-bold mb-4">🛒 Siparişlerim</h2>
+
+  <!-- Yükleniyor / Hata -->
+  <div *ngIf="loading" class="text-center">Yükleniyor…</div>
+  <div *ngIf="error" class="text-red-600">{{ error }}</div>
+
+  <!-- Sipariş Tablosu -->
+  <table *ngIf="!loading && orders.length" class="min-w-full table-auto">
+    <thead>
+      <tr class="bg-gray-100">
+        <th class="px-4 py-2">Foto</th>
+        <th class="px-4 py-2">Tarih</th>
+        <th class="px-4 py-2">Ürünler</th>
+        <th class="px-4 py-2">Durum</th>
+        <th class="px-4 py-2">Tutar</th>
+        <th class="px-4 py-2">İşlem</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let o of orders">
+        <!-- Sadece iptal edilmemiş ve teslim edilmemiş siparişler -->
+        <tr *ngIf="o.status !== 'CANCELLED' && o.shipmentStatus !== 'DELIVERED'"
+            class="border-b">
+
+          <!-- 1) Fotoğraf -->
+          <td class="px-4 py-2">
+            <ul class="list-disc pl-5">
+              <li *ngFor="let it of o.items">
+                {{ it.imageUrl}}
+              </li>
+            </ul>
+          </td>
+
+          <!-- 2) Tarih -->
+          <td class="px-4 py-2">
+            {{ o.createdAt | date:'short' }}
+          </td>
+
+          <!-- 3) Ürünler -->
+           <td class="px-4 py-2">
+            <ul class="list-disc pl-5">
+              <li *ngFor="let it of o.items">
+                {{ it.productName }} x{{ it.quantity }}
+                <button
+                  (click)="onCancelItem(o, it)"
+                  class="ml-4 bg-red-500 hover:bg-red-600 text-white text-xs px-2 py-1 rounded"
+                  *ngIf="o.status==='PAID'"
+                >Kalemi İptal Et</button>
+              </li>
+            </ul>
+          </td>
+
+          <!-- 4) Durum -->
+          <td class="px-4 py-2">{{ o.status }}</td>
+
+          <!-- 5) Tutar -->
+          <td class="px-4 py-2">
+            <li *ngFor="let it of o.items">
+                {{ it.unitPrice *it.quantity| currency:'TRY':'symbol' }}
+              </li>
+          </td>
+
+          <!-- 6) İşlem -->
+          <td class="px-4 py-2 flex gap-2">
+            <button
+              *ngIf="o.status === 'PAID'"
+              (click)="onCancel(o)"
+              class="bg-red-500 hover:bg-red-600 text-white font-semibold px-3 py-1 rounded">
+              İptal Et
+            </button>
+            <button
+              (click)="trackOrder(o)"
+              class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-3 py-1 rounded">
+              Takip Et
+            </button>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+
+  <!-- Boş liste mesajı -->
+  <p *ngIf="!loading && !orders.length" class="text-gray-600">
+    Henüz hiç siparişiniz yok.
+  </p>
+</div>

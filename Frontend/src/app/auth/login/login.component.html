@@ -1,0 +1,101 @@
+<h2 class="text-2xl font-semibold mb-6 text-center">Login</h2>
+
+<form
+  [formGroup]="loginForm"
+  (ngSubmit)="login()"
+  class="max-w-md mx-auto bg-white p-6 shadow-md rounded"
+>
+  <!-- Email -->
+  <div class="mb-4">
+    <label for="email" class="block text-sm font-medium mb-1">Email</label>
+    <input
+      id="email"
+      type="text"
+      formControlName="email"
+      class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+    <div
+      *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+      class="text-red-600 text-sm mt-1"
+    >
+      Email is required.
+    </div>
+  </div>
+
+
+  <div class="mb-6">
+    <label for="password" class="block text-sm font-medium mb-1">Password</label>
+    <input
+      id="password"
+      type="password"
+      formControlName="password"
+      class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+    <div
+      *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+      class="text-red-600 text-sm mt-1"
+    >
+      Password is required.
+    </div>
+  </div>
+
+  <!-- Login Button -->
+  <button
+    type="submit"
+    class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+    [disabled]="loginForm.invalid"
+  >
+    Login
+  </button>
+
+  <!-- OR Separator -->
+  <div class="flex items-center my-6">
+    <hr class="flex-1 border-gray-300"/>
+    <span class="mx-2 text-gray-500">or</span>
+    <hr class="flex-1 border-gray-300"/>
+  </div>
+
+  <!-- Social Login Buttons -->
+  <div class="flex flex-col space-y-2">
+    <button
+      type="button"
+      (click)="signInWithGoogle()"
+      [disabled]="loadingGoogle"
+      class="flex items-center justify-center space-x-2 bg-red-500 text-white px-4 py-2 rounded w-full hover:bg-red-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
+    >
+      <mat-icon>google</mat-icon>
+      <span>Login with Google</span>
+    </button>
+
+    <a></a>
+
+    <button
+      type="button"
+      (click)="signInWithFacebook()"
+      [disabled]="loadingFacebook"
+      class="flex items-center justify-center space-x-2 bg-blue-800 text-white px-4 py-2 rounded w-full hover:bg-blue-900 transition disabled:opacity-50 disabled:cursor-not-allowed"
+    >
+      <mat-icon>facebook</mat-icon>
+      <span>Login with Facebook</span>
+    </button>
+  </div>
+
+  <!-- Hata Mesajı -->
+  <div *ngIf="errorMessage" class="text-red-600 text-center">
+    {{ errorMessage }}
+  </div>
+
+
+
+
+  <!-- Signup Link -->
+  <p class="mt-6 text-center text-sm">
+    Don't have an account?
+    <a
+      routerLink="/auth/signup"
+      class="text-blue-600 hover:underline"
+    >
+      Signup
+    </a>
+  </p>
+</form>

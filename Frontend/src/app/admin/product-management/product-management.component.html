@@ -1,0 +1,110 @@
+<div class="container mx-auto px-4 py-6">
+  <!-- Başlık -->
+  <h2 class="text-2xl font-semibold text-gray-800 mb-6">Ürün Yönetimi</h2>
+
+  <!-- Tab Navigation -->
+  <div class="flex space-x-4 mb-6">
+    <button
+      (click)="activeTab = 'ALL'"
+      [class.bg-blue-100]="activeTab==='ALL'"
+      class="px-4 py-2 text-sm rounded border border-gray-300 hover:bg-blue-50"
+    >
+      Tüm Ürünler
+    </button>
+    <button
+      (click)="activeTab = 'PENDING'"
+      [class.bg-blue-100]="activeTab==='PENDING'"
+      class="px-4 py-2 text-sm rounded border border-gray-300 hover:bg-blue-50"
+    >
+      Onay Bekleyenler
+    </button>
+  </div>
+
+  <!-- Yükleniyor -->
+  <div *ngIf="loading" class="py-8 text-center text-gray-500">
+    Yükleniyor...
+  </div>
+
+  <div *ngIf="!loading">
+    <div class="overflow-x-auto rounded shadow border border-gray-200">
+      <!-- ALL Tablosu -->
+      <table
+        *ngIf="activeTab==='ALL'"
+        class="min-w-full divide-y divide-gray-200 text-sm"
+      >
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">ID</th>
+            <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">İsim</th>
+            <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">Satıcı</th>
+            <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">Stok</th>
+            <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">Fiyat</th>
+            <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">Durum</th>
+            <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">İşlem</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <tr *ngFor="let p of allProducts" class="hover:bg-gray-50 transition-colors">
+            <td class="px-6 py-4 text-gray-700">{{ p.id }}</td>
+            <td class="px-6 py-4 text-gray-700">{{ p.name }}</td>
+            <td class="px-6 py-4 text-gray-700">{{ p.seller }}</td>
+            <td class="px-6 py-4 text-gray-700">{{ p.stock }}</td>
+            <td class="px-6 py-4 text-gray-700">{{ p.price | currency }}</td>
+            <td class="px-6 py-4 font-medium">
+              <span [ngClass]="{
+                'text-green-600': p.status==='ACTIVE',
+                'text-yellow-600': p.status==='PENDING',
+                'text-red-600': p.status==='BANNED'
+              }">
+                {{ p.status }}
+              </span>
+            </td>
+            <td class="px-6 py-4 space-x-2">
+              <button *ngIf="p.status!=='BANNED'" (click)="reject(p.id)" class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded-md">Banla</button>
+              <button *ngIf="p.status==='BANNED'" (click)="unban(p.id)" class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded-md">Unban</button>
+              <button (click)="delete(p.id)" class="px-3 py-1 bg-gray-500 hover:bg-gray-600 text-white rounded-md">Sil</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- PENDING Tablosu -->
+      <table
+        *ngIf="activeTab==='PENDING'"
+        class="min-w-full divide-y divide-gray-200 text-sm"
+      >
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">ID</th>
+            <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">İsim</th>
+            <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">Satıcı</th>
+            <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">Stok</th>
+            <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">Fiyat</th>
+            <th class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">İşlem</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <tr *ngFor="let p of pendingProducts" class="hover:bg-gray-50 transition-colors">
+            <td class="px-6 py-4 text-gray-700">{{ p.id }}</td>
+            <td class="px-6 py-4 text-gray-700">{{ p.name }}</td>
+            <td class="px-6 py-4 text-gray-700">{{ p.seller }}</td>
+            <td class="px-6 py-4 text-gray-700">{{ p.stock }}</td>
+            <td class="px-6 py-4 text-gray-700">{{ p.price | currency }}</td>
+            <td class="px-6 py-4 space-x-2">
+              <button (click)="approve(p.id)" class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded-md">Onayla</button>
+              <button (click)="reject(p.id)" class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded-md">Banla</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Boş liste mesajları -->
+    <div *ngIf="activeTab==='ALL' && allProducts?.length === 0" class="py-8 text-center text-gray-500">
+      Hiç ürün bulunamadı.
+    </div>
+    <div *ngIf="activeTab==='PENDING' && pendingProducts?.length === 0" class="py-8 text-center text-gray-500">
+      Onay bekleyen ürün bulunamadı.
+    </div>
+  </div>
+</div>

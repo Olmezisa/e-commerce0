@@ -1,0 +1,8 @@
+<!-- src/app/ProductModule/Components/review-card/review-card.component.html -->
+
+<div class="border p-4 rounded-lg shadow mb-4">
+  <h3 class="text-lg font-semibold">{{ review.userName }}</h3>
+  <p class="text-sm text-gray-500">{{ review.date | date }}</p>
+  <p class="mt-2">{{ review.comment }}</p>
+  <p class="text-yellow-500">{{ review.rating }} ⭐</p>
+</div>

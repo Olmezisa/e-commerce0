@@ -1,0 +1,47 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6">
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">SKU</label>
+      <input formControlName="sku" placeholder="SKU" class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-green-200"/>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Seçenek Adı</label>
+      <input formControlName="optionName" placeholder="Örn: Renk" class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-green-200"/>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Seçenek Değeri</label>
+      <input formControlName="optionValue" placeholder="Örn: Kırmızı" class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-green-200"/>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Görsel URL</label>
+      <input formControlName="imageUrl" placeholder="https://..." class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-green-200"/>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Fiyat (₺)</label>
+      <input type="number" formControlName="price" placeholder="Fiyat" class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-green-200"/>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Stok</label>
+      <input type="number" formControlName="stock" placeholder="Stok miktarı" class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-green-200"/>
+    </div>
+  </div>
+
+  <div class="pt-4">
+    <button
+      type="submit"
+      class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+    >
+      {{ variant ? 'Varyantı Güncelle' : 'Varyant Ekle' }}
+    </button>
+  </div>
+</form>

@@ -1,0 +1,30 @@
+
+
+
+<div *ngIf="!loading && !error && order" class="container mx-auto p-6 max-w-3xl">
+  <h2 class="text-2xl font-bold mb-4">
+    🚚 Sipariş Takibi #{{ order.orderId }}
+  </h2>
+
+  <ul class="flex justify-between mb-8">
+    <li *ngFor="let step of shipmentSteps; let i = index" class="flex-1 text-center">
+      <div
+        class="mx-auto w-8 h-8 rounded-full flex items-center justify-center mb-2"
+        [ngClass]="{
+          'bg-green-500 text-white': i <= currentStep,
+          'bg-gray-200': i > currentStep
+        }"
+      >
+        {{ i + 1 }}
+      </div>
+      <span [class.font-semibold]="i <= currentStep">{{ step }}</span>
+    </li>
+  </ul>
+
+
+</div>
+
+<ng-template #loadingOrError>
+  <div *ngIf="loading" class="text-center p-6">Yükleniyor…</div>
+  <div *ngIf="!loading && error" class="text-red-600 p-6">{{ error }}</div>
+</ng-template>

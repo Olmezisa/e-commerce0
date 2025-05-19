@@ -1,0 +1,55 @@
+<div class="container mx-auto p-6 max-w-3xl">
+  <h2 class="text-2xl font-bold mb-4">📦 Satışlarım</h2>
+
+  <div *ngIf="loading" class="text-center">Yükleniyor…</div>
+  <div *ngIf="error" class="text-red-600 mb-4">{{ error }}</div>
+
+  <table *ngIf="!loading && orders.length" class="min-w-full table-auto">
+    <thead>
+      <tr class="bg-gray-100">
+        <th class="px-4 py-2">Sipariş #</th>
+        <th class="px-4 py-2">Tarih</th>
+        <th class="px-4 py-2">Durum</th>
+        <th class="px-4 py-2">Kargo Durumu</th>
+        <th class="px-4 py-2">Tutar</th>
+        <th class="px-4 py-2">İşlem</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let o of orders" class="border-b"
+      >
+        <td class="px-4 py-2">{{ o.orderId }}</td>
+        <td class="px-4 py-2">{{ o.createdAt | date:'short' }}</td>
+        <td class="px-4 py-2">{{ o.status }}</td>
+        <td class="px-4 py-2">{{ o.shipmentStatus }}</td>
+        <td class="px-4 py-2">{{ o.totalAmount | currency:'TRY':'symbol' }}</td>
+        <td class="px-4 py-2 flex gap-2">
+          <button
+            *ngIf="o.status === 'PAID'&& o.shipmentStatus !== 'DELIVERED'"
+            (click)="onCancel(o)"
+            class="bg-red-500 hover:bg-red-600 text-white font-semibold px-3 py-1 rounded"
+          >
+            İptal Et
+          </button>
+          <button
+            (click)="trackOrder(o)"
+            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-3 py-1 rounded"
+          >
+            Takip Et
+          </button>
+          <button
+            *ngIf="shipmentSteps.indexOf(o.shipmentStatus || 'PENDING') < shipmentSteps.length - 1"
+            (click)="advanceShipment(o)"
+            class="bg-green-500 hover:bg-green-600 text-white font-semibold px-3 py-1 rounded"
+          >
+            İlerle ➔
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!loading && !orders.length" class="text-gray-600">
+    Henüz hiç satışınız yok ya da güncellenebilir bir sipariş yok.
+  </p>
+</div>

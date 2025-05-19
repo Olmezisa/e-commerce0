@@ -1,0 +1,22 @@
+<app-header></app-header>
+<app-navbar></app-navbar>
+
+<main class="container mx-auto p-4">
+  <h2 class="text-2xl font-semibold mb-4">
+    Arama Sonuçları: "{{ query }}"
+  </h2>
+
+  <div *ngIf="results.length; else noResults">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div *ngFor="let p of results">
+        <app-product-card [product]="p"></app-product-card>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noResults>
+    <p class="text-gray-500">"{{ query }}" için sonuç bulunamadı.</p>
+  </ng-template>
+</main>
+
+<app-footer></app-footer>

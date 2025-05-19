@@ -1,0 +1,45 @@
+<div *ngIf="loading" class="py-10 text-center">Yükleniyor…</div>
+<div *ngIf="error" class="py-4 text-red-600">{{ error }}</div>
+
+<div *ngIf="!loading && !error" class="overflow-x-auto">
+  <table class="min-w-full bg-white border rounded-lg shadow-md text-sm text-gray-800">
+    <thead class="bg-gray-100 text-gray-700 uppercase text-xs tracking-wider">
+      <tr>
+        <th class="px-6 py-3 text-left">ID</th>
+        <th class="px-6 py-3 text-left">Ad</th>
+        <th class="px-6 py-3 text-left">Fiyat</th>
+        <th class="px-6 py-3 text-left">Stok</th>
+        <th class="px-6 py-3 text-left">Durum</th>
+        <th class="px-6 py-3 text-right">İşlem</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200">
+      <tr *ngFor="let p of products" class="hover:bg-gray-50 transition">
+        <td class="px-6 py-4">{{ p.id }}</td>
+        <td class="px-6 py-4 font-medium">{{ p.name }}</td>
+        <td class="px-6 py-4">{{ p.price | currency:'TRY' }}</td>
+        <td class="px-6 py-4">{{ p.stock }}</td>
+        <td class="px-6 py-4">
+          <span
+            class="inline-block px-2 py-1 rounded-full text-xs font-semibold"
+            [ngClass]="{
+              'bg-green-100 text-green-700': p.status === 'ACTIVE',
+              'bg-yellow-100 text-yellow-700': p.status === 'PENDING',
+              'bg-red-100 text-red-700': p.status === 'BANNED'
+            }"
+          >
+            {{ p.status }}
+          </span>
+        </td>
+        <td class="px-6 py-4 text-right">
+          <button
+            class="px-4 py-2 bg-yellow-500 text-white text-xs font-medium rounded hover:bg-yellow-600"
+            (click)="onEdit(p.id)"
+          >
+            Düzenle
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

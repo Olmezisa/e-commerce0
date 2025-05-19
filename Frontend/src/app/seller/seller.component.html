@@ -1,0 +1,18 @@
+<!-- seller-layout.component.html -->
+<div class="flex min-h-screen bg-gray-100">
+  <!-- Sidebar -->
+  <aside class="w-64 bg-white shadow-md border-r border-gray-200">
+    <div class="p-6 text-xl font-bold text-blue-600">Satıcı Paneli</div>
+    <nav class="space-y-1 text-sm">
+      <a routerLink="/seller/dashboard" routerLinkActive="bg-blue-100 text-blue-700" class="block px-6 py-3 hover:bg-blue-50">Dashboard</a>
+      <a routerLink="/seller/my-products" routerLinkActive="bg-blue-100 text-blue-700" class="block px-6 py-3 hover:bg-blue-50">Ürünlerim</a>
+      <a routerLink="/seller/add-products" routerLinkActive="bg-blue-100 text-blue-700" class="block px-6 py-3 hover:bg-blue-50">Ürün Ekle</a>
+      <a routerLink="/seller/order-management" routerLinkActive="bg-blue-100 text-blue-700" class="block px-6 py-3 hover:bg-blue-50">Orders</a>
+    </nav>
+  </aside>
+
+  <!-- Main content -->
+  <main class="flex-1 p-8">
+    <router-outlet></router-outlet>
+  </main>
+</div>

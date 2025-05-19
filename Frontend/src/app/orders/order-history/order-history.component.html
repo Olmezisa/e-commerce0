@@ -1,0 +1,35 @@
+<!-- src/app/order-history/order-history.component.html -->
+<div class="container mx-auto p-6 max-w-3xl">
+  <h2 class="text-2xl font-bold mb-4">📜 Geçmiş Siparişlerim</h2>
+
+  <!-- Yükleniyor / Hata -->
+  <div *ngIf="loading" class="text-center p-6">Yükleniyor…</div>
+  <div *ngIf="!loading && error" class="text-red-600 p-6">{{ error }}</div>
+
+  <!-- Geçmiş siparişler tablosu -->
+  <table *ngIf="!loading && pastOrders.length" class="min-w-full table-auto">
+    <thead>
+      <tr class="bg-gray-100">
+        <th class="px-4 py-2">Sipariş #</th>
+        <th class="px-4 py-2">Tarih</th>
+        <th class="px-4 py-2">Sipariş Durumu</th>
+        <th class="px-4 py-2">Kargo Durumu</th>
+        <th class="px-4 py-2">Tutar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let o of pastOrders" class="border-b">
+        <td class="px-4 py-2">{{ o.orderId }}</td>
+        <td class="px-4 py-2">{{ o.createdAt | date:'short' }}</td>
+        <td class="px-4 py-2">{{ o.status }}</td>
+        <td class="px-4 py-2">{{ o.shipmentStatus }}</td>
+        <td class="px-4 py-2">{{ o.totalAmount | currency:'TRY':'symbol' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Boş liste uyarısı -->
+  <p *ngIf="!loading && !pastOrders.length" class="text-gray-600">
+    Henüz geçmiş siparişiniz yok.
+  </p>
+</div>

@@ -1,0 +1,89 @@
+<section class="max-w-7xl mx-auto px-4 py-8">
+  <h2 class="text-2xl font-bold text-gray-800 mb-2">
+    {{ categoryName ? categoryName + ' Ürünleri' : 'Tüm Ürünler' }}
+  </h2>
+  <p *ngIf="categoryName" class="text-sm text-gray-500 mb-6">
+    Kategoriye göre filtrelendi. <a routerLink="/" class="text-blue-600 underline">Tümünü Gör</a>
+  </p>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+    <div
+      *ngFor="let p of filtered"
+      class="bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition cursor-pointer relative group"
+      (click)="viewDetails(p)"
+    >
+      <button class="absolute top-3 right-3 z-10" (click)="toggleWishlist(p, $event)">
+        <mat-icon
+          class="text-xl transition"
+          [ngClass]="isWishlisted(p) ? 'text-red-500' : 'text-gray-300 group-hover:text-red-400'"
+        >
+          {{ isWishlisted(p) ? 'favorite' : 'favorite_border' }}
+        </mat-icon>
+      </button>
+
+      <img
+        [src]="p.imageUrl"
+        [alt]="p.name"
+        class="w-full h-48 object-contain p-4 bg-gray-50"
+      />
+
+      <div class="p-4 space-y-2">
+        <h3 class="text-sm font-medium text-gray-800 truncate">{{ p.name }}</h3>
+        <p class="text-blue-600 text-lg font-semibold">
+          {{ p.price | currency:'TRY':'symbol' }}
+        </p>
+        <p class="text-xs text-gray-500 line-through">
+          ₺{{ (p.price * 1.4) | number:'1.0-0' }}
+        </p>
+
+        <div *ngIf="variantOptions[p.id]?.length" class="mt-2">
+          <label [for]="'variant-' + p.id" class="block text-xs font-medium text-gray-600 mb-1">
+            Seçenek
+          </label>
+          <select
+            [id]="'variant-' + p.id"
+            [(ngModel)]="selectedVariant[p.id]"
+            name="variant-{{ p.id }}"
+            (click)="$event.stopPropagation()"
+            class="w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 p-2 text-sm"
+          >
+            <option *ngFor="let v of variantOptions[p.id]" [value]="v.id">
+              {{ v.optionName }}: {{ v.optionValue }}
+            </option>
+          </select>
+        </div>
+
+        <div class="text-sm text-gray-500 mt-1">
+          ⭐ {{ p.rating != null ? (p.rating % 1 === 0 ? p.rating : p.rating.toFixed(1)) : '0' }} / 5
+        </div>
+
+        <div class="flex space-x-2 pt-2">
+          <button
+            class="flex-1 bg-green-500 hover:bg-green-600 text-white text-xs py-2 rounded-lg"
+            (click)="addToCart(p, $event)"
+          >
+            Sepete Ekle
+          </button>
+
+          <button
+            class="flex-1 bg-yellow-300 hover:bg-yellow-400 text-gray-800 text-xs py-2 rounded-lg"
+            [disabled]="selectedProducts.length >= 2"
+            (click)="addToCompare(p, $event)"
+          >
+            {{ selectedProducts.includes(p) ? 'Seçildi' : 'Karşılaştır' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-8 text-right">
+    <button
+      class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition disabled:opacity-50"
+      [disabled]="selectedProducts.length !== 2"
+      (click)="compareSelected($event)"
+    >
+      Seçilenleri Karşılaştır ({{ selectedProducts.length }}/2)
+    </button>
+  </div>
+</section>

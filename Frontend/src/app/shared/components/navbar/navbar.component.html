@@ -1,0 +1,30 @@
+<nav class="bg-white border-t relative">
+  <div class="container mx-auto py-3 px-2 flex items-center space-x-6 text-sm">
+    <button
+      (click)="isClicked()"
+      class="flex items-center space-x-1 text-gray-700 hover:text-brandBlue focus:outline-none"
+    >
+      <mat-icon>menu</mat-icon>
+      <span>ALL CATEGORIES</span>
+    </button>
+  </div>
+
+  <!-- Dropdown Menü -->
+  <div
+    *ngIf="isClickedNavbar"
+    class="absolute left-0 w-full bg-white shadow-lg border-t z-20"
+  >
+    <div class="container mx-auto py-4 px-2">
+      <ul class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <li
+          *ngFor="let cat of categories"
+          (click)="onCategory(cat)"
+          class="flex items-center space-x-2 cursor-pointer hover:bg-gray-100 p-2 rounded"
+        >
+          <mat-icon class="text-brandBlue">category</mat-icon>
+          <span class="text-gray-800">{{ cat.name }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

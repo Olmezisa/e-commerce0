@@ -1,0 +1,93 @@
+<div class="max-w-5xl mx-auto px-4 py-10 space-y-12">
+
+  <!-- Ürün Düzenle Başlık -->
+  <div class="flex items-center justify-between">
+    <h1 class="text-3xl font-bold text-gray-800">Ürünü Düzenle</h1>
+  </div>
+
+  <!-- Ürün Düzenleme Formu -->
+  <form
+    *ngIf="productForm"
+    [formGroup]="productForm"
+    (ngSubmit)="onProductSubmit()"
+    class="bg-white shadow-md rounded-xl p-8 space-y-6 border border-gray-200"
+  >
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Ürün Adı</label>
+        <input formControlName="name" class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-200"/>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Görsel URL</label>
+        <input formControlName="imageUrl" class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-200"/>
+      </div>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Açıklama</label>
+      <textarea formControlName="description" rows="3" class="w-full p-3 border border-gray-300 rounded-lg resize-none focus:ring focus:ring-blue-200"></textarea>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Fiyat (₺)</label>
+        <input type="number" formControlName="price" class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-200"/>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Stok</label>
+        <input type="number" formControlName="stock" class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-200"/>
+      </div>
+    </div>
+
+    <!-- Kategori Dropdown -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
+      <select
+        formControlName="categoryId"
+        class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-200"
+      >
+        <option value="">Kategori Seçin</option>
+        <option *ngFor="let c of categories" [value]="c.id">
+          {{ c.name }}
+        </option>
+      </select>
+    </div>
+
+    <input type="hidden" formControlName="status"/>
+
+    <div class="pt-4">
+      <button
+        type="submit"
+        [disabled]="productForm.invalid"
+        class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Kaydet
+      </button>
+    </div>
+  </form>
+
+  <!-- Varyantlar Listesi -->
+  <ng-container *ngIf="product">
+    <section class="bg-white shadow-md rounded-xl p-8 border border-gray-200">
+      <h2 class="text-2xl font-semibold text-gray-800 mb-6">Varyantlar</h2>
+      <app-variant-list
+        [productId]="product.id"
+        (edit)="onEditVariant($event)"
+        (delete)="onDeleteVariant($event)"
+      ></app-variant-list>
+    </section>
+
+    <!-- Varyant Formu -->
+    <section class="bg-white shadow-md rounded-xl p-8 border border-gray-200">
+      <h2 class="text-2xl font-semibold text-gray-800 mb-6">
+        {{ editingVariant ? 'Varyantı Düzenle' : 'Yeni Varyant Ekle' }}
+      </h2>
+      <app-variant-form
+        [productId]="product.id"
+        [variant]="editingVariant"
+        (saved)="onVariantSaved()"
+      ></app-variant-form>
+    </section>
+  </ng-container>
+</div>
