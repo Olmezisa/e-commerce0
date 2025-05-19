@@ -1,6 +1,7 @@
 package com.ecommerce.backend.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -79,7 +80,18 @@ public class OrderController {
             @RequestBody ShipmentStatusUpdateRequest req
     ) {
         return orderService.updateShipmentStatus(id, req.getShipmentStatus());
-    }
+    }    
+    @PostMapping("/{id}/admin-cancel")
+@PreAuthorize("hasRole('ADMIN')")
+public OrderResponse cancelOrderAsAdmin(@PathVariable("id") Long id) {
+    return orderService.cancelOrder(id);
+}
+
+    @GetMapping("/admin")
+@PreAuthorize("hasRole('ADMIN')")
+public List<OrderResponse> getAllOrdersForAdmin() {
+    return orderService.getAllOrdersForAdmin();
+}
 
     @PostMapping("/{orderId}/items/{itemId}/cancel")
   @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -87,7 +99,7 @@ public class OrderController {
       @PathVariable Long orderId,
       @PathVariable Long itemId) {
     orderService.cancelOrderItem(orderId, itemId);
-  }
+}
 
     
 

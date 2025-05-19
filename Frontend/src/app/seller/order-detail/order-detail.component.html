@@ -1,0 +1,52 @@
+<div class="container mx-auto p-6 max-w-3xl">
+
+  <button (click)="back()"
+          class="mb-4 bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded">
+    ← Geri
+  </button>
+
+  <div *ngIf="loading" class="text-center">Yükleniyor…</div>
+  <div *ngIf="error" class="text-red-600">{{ error }}</div>
+
+  <div *ngIf="!loading && order">
+    <h2 class="text-2xl font-bold mb-4">Sipariş Detayı #{{ order.orderId }}</h2>
+
+    <p class="mb-2"><strong>Tarih:</strong> {{ order.createdAt | date:'short' }}</p>
+    <p class="mb-4"><strong>Durum:</strong> {{ order.status }} /
+      <strong>Kargo:</strong> {{ order.shipmentStatus }}</p>
+
+    <table class="min-w-full table-auto mb-6">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="px-4 py-2">Ürün</th>
+          <th class="px-4 py-2">Adet</th>
+          <th class="px-4 py-2">Birim Fiyat</th>
+          <th class="px-4 py-2">Ara Toplam</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let it of order.items" class="border-b">
+          <td class="px-4 py-2 flex items-center space-x-2">
+            <img [src]="it.imageUrl" alt="" class="w-12 h-12 object-cover rounded" />
+            <span>{{ it.productName }}</span>
+          </td>
+          <td class="px-4 py-2 text-center">{{ it.quantity }}</td>
+          <td class="px-4 py-2 text-right">{{ it.unitPrice | currency:'TRY':'symbol' }}</td>
+          <td class="px-4 py-2 text-right">
+            {{ (it.unitPrice * it.quantity) | currency:'TRY':'symbol' }}
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr class="bg-gray-50">
+          <td colspan="3" class="px-4 py-2 text-right font-semibold">Toplam:</td>
+          <td class="px-4 py-2 text-right font-bold">
+            {{ order.totalAmount | currency:'TRY':'symbol' }}
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <!-- (İsterseniz burada siparişi direkt iptal/işlem butonları da ekleyebilirsiniz.) -->
+  </div>
+</div>

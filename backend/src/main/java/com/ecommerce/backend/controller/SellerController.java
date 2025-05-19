@@ -5,17 +5,24 @@ import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.ecommerce.backend.dto.ProductResponse;
 import com.ecommerce.backend.dto.SellerDashboardDto;
 import com.ecommerce.backend.dto.SellerDto;
 import com.ecommerce.backend.entity.OrderStatus;
 import com.ecommerce.backend.entity.Product;
+import com.ecommerce.backend.entity.ProductStatus;
+import com.ecommerce.backend.entity.User;
+import com.ecommerce.backend.repository.ProductRepository;
 import com.ecommerce.backend.service.OrderService;
 import com.ecommerce.backend.service.ProductService;
+import com.ecommerce.backend.service.UserService;
+
 
 @RestController
 @RequestMapping("/api/seller")
@@ -24,10 +31,13 @@ public class SellerController {
 
     private final ProductService productService;
     private final OrderService orderService;
-
-    public SellerController(ProductService productService, OrderService orderService) {
+    private final ProductRepository productRepository;
+    private final UserService userService;
+    public SellerController(ProductService productService, OrderService orderService,ProductRepository productRepository,UserService userService) {
         this.productService = productService;
         this.orderService = orderService;
+        this.productRepository=productRepository;
+        this.userService=userService;
     }
 
 @GetMapping("/dashboard")
@@ -66,6 +76,22 @@ public ResponseEntity<SellerDashboardDto> getDashboard(Principal principal) {
 
         return ResponseEntity.ok(dto);
     }
+    @DeleteMapping("/{productId}/delete")
+    public ResponseEntity<Void> deleteOwnProduct(@PathVariable Long productId) {
+    User seller = userService.getCurrentUser();
+    Product product = productService.getProductById(productId);
+
+    if (!product.getSeller().getId().equals(seller.getId())) {
+        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Bu ürünü silme yetkiniz yok");
+    }
+
+    productService.deleteProduct(productId);
+    return ResponseEntity.noContent().build();
+}
+
+
+
+    
 
     private ProductResponse toResponse(Product p) {
         SellerDto sellerDto = null;

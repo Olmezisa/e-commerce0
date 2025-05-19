@@ -5,10 +5,13 @@ import com.ecommerce.backend.dto.ProductResponse;
 import com.ecommerce.backend.dto.SellerDto;
 import com.ecommerce.backend.entity.Product;
 import com.ecommerce.backend.entity.ProductStatus;
+import com.ecommerce.backend.entity.User;
 import com.ecommerce.backend.service.ProductService;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
@@ -62,11 +65,14 @@ public class ProductController {
         return ResponseEntity.ok(productService.updateProduct(id, request));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/admin/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-        productService.deleteProduct(id);
-        return ResponseEntity.noContent().build();
-    }
+
+    productService.deleteProduct(id);
+    return ResponseEntity.noContent().build();
+}
+
 
     @PutMapping("/{id}/approve")
     @PreAuthorize("hasRole('ADMIN')")
@@ -129,4 +135,5 @@ public class ProductController {
                 p.getReviews().size()
         );
     }
+    
 }

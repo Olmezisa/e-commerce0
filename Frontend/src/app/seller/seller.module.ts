@@ -13,6 +13,7 @@ import { EditProductComponent } from './edit-product/edit-product.component';
 import { VariantModule } from '../variant/variant.module';
 import { NgChartsModule } from 'ng2-charts';
 import { OrderManagementComponent } from './order-management/order-management.component';
+import { OrderDetailComponent } from './order-detail/order-detail.component';
 
 
 
@@ -24,7 +25,8 @@ import { OrderManagementComponent } from './order-management/order-management.co
     AddProductsComponent,
     MyProductsComponent,
     EditProductComponent,
-    OrderManagementComponent
+    OrderManagementComponent,
+    OrderDetailComponent
   ],
   imports: [
     CommonModule,

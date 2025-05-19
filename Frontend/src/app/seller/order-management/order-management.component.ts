@@ -52,6 +52,12 @@ export class OrderManagementComponent implements OnInit {
   trackOrder(o: OrderResp) {
     this.router.navigate(['/orders/order-tracking', o.orderId]);
   }
+   viewDetails(o: OrderResp) {
+    // ister yeni bir sayfaya yönlendirebilirsiniz:
+    this.router.navigate(['/seller/order-detail', o.orderId]);
+    // veya bir modal açıp o.items bilgisini gösterin
+  }
+
 
   // update to next shipment status
   advanceShipment(o: OrderResp) {

@@ -89,8 +89,13 @@ cancelItem(orderId: number, itemId: number): Observable<void> {
     `${this.base}/${orderId}/items/${itemId}/cancel`, {}
   );
 }
+getAllOrdersForAdmin(): Observable<OrderResp[]> {
+  return this.http.get<OrderResp[]>(`${this.base}/admin`);
+}
 
 
-
+cancelOrderAsAdmin(orderId: number): Observable<OrderResp> {
+  return this.http.post<OrderResp>(`${this.base}/${orderId}/admin-cancel`, {});
+}
 
 }

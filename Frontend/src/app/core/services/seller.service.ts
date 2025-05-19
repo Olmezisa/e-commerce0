@@ -36,5 +36,8 @@ export class SellerService {
   getMyProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(`${this.baseUrl}/my-products`);
   }
+  deleteProduct(productId: number): Observable<void> {
+  return this.http.delete<void>(`${this.baseUrl}/${productId}/delete`);
+}
 
 }

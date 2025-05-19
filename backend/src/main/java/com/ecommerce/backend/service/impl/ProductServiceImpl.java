@@ -87,7 +87,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProduct(Long id) {
-        productRepository.deleteById(id);
+         Product product = getProductById(id);
+    product.setPreviousStatus(product.getStatus());
+    product.setStatus(ProductStatus.BANNED); // silmek yerine pasif yap
+    productRepository.save(product);
     }
 
     @Override

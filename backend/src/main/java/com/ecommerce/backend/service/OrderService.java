@@ -28,6 +28,8 @@ public interface OrderService {
     OrderResponse updateShipmentStatus(Long orderId, ShipmentStatus newStatus);
     OrderResponse getOrderById(Long orderId);
     void cancelOrderItem(Long orderId,Long itemId);
+
+    List<OrderResponse> getAllOrdersForAdmin();
     
     
     

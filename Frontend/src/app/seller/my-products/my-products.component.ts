@@ -37,4 +37,18 @@ export class MyProductsComponent implements OnInit {
   onEdit(id: number) {
     this.router.navigate(['/seller/my-products', id, 'edit']);
   }
+  onDelete(id: number): void {
+  if (confirm('Bu ürünü silmek istediğinize emin misiniz?')) {
+    this.sellerService.deleteProduct(id).subscribe({
+      next: () => {
+        alert('Product silindi.');
+        this.products = this.products.filter(p => p.id !== id);
+      },
+      error: err => {
+        console.error('Silme hatası:', err);
+        alert('Silinirken hata oluştu.');
+      }
+    });
+  }
+}
 }

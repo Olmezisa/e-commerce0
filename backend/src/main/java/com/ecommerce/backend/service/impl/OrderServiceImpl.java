@@ -9,6 +9,7 @@ import com.ecommerce.backend.entity.OrderItem;
 import com.ecommerce.backend.entity.OrderItemStatus;
 import com.ecommerce.backend.entity.OrderStatus;
 import com.ecommerce.backend.entity.Product;
+import com.ecommerce.backend.entity.Role;
 import com.ecommerce.backend.entity.ShipmentStatus;
 import com.ecommerce.backend.entity.User;
 import com.ecommerce.backend.repository.OrderRepository;
@@ -22,7 +23,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -211,9 +211,12 @@ public OrderResponse cancelOrder(Long orderId) {
 
     // 2) Sadece alıcı veya satıcı iptal edebilir
     User current = userService.getCurrentUser();
+    Role userRole = current.getRole();
     boolean isBuyer  = order.getBuyer().getId().equals(current.getId());
     boolean isSeller = order.getSeller().getId().equals(current.getId());
-    if (!isBuyer && !isSeller) {
+    boolean isAdmin = userRole != null && userRole.name().equals("ADMIN");
+
+    if (!isBuyer && !isSeller&&!isAdmin ) {
         throw new ResponseStatusException(
             HttpStatus.FORBIDDEN, "Bu siparişi iptal etme yetkiniz yok");
     }
@@ -272,6 +275,12 @@ public OrderResponse cancelOrder(Long orderId) {
         return productRepository.findTopProductBySellerEmail(email)
             .orElse(null); 
     }
+    @Override
+public List<OrderResponse> getAllOrdersForAdmin() {
+    return orderRepository.findAll().stream()
+            .map(this::toResponse)
+            .collect(Collectors.toList());
+}
 
     @Override
     public BigDecimal calculateAverageProductPrice(String email) {

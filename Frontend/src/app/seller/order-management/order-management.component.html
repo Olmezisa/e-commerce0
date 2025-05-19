@@ -11,34 +11,37 @@
         <th class="px-4 py-2">Tarih</th>
         <th class="px-4 py-2">Durum</th>
         <th class="px-4 py-2">Kargo Durumu</th>
-        <th class="px-4 py-2">Tutar</th>
         <th class="px-4 py-2">İşlem</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let o of orders" class="border-b"
-      >
+      <tr *ngFor="let o of orders" class="border-b">
         <td class="px-4 py-2">{{ o.orderId }}</td>
         <td class="px-4 py-2">{{ o.createdAt | date:'short' }}</td>
         <td class="px-4 py-2">{{ o.status }}</td>
         <td class="px-4 py-2">{{ o.shipmentStatus }}</td>
-        <td class="px-4 py-2">{{ o.totalAmount | currency:'TRY':'symbol' }}</td>
         <td class="px-4 py-2 flex gap-2">
+
+          <!-- Satışı İptal Et (yalnız PAID ve kargo başlamamış) -->
           <button
-            *ngIf="o.status === 'PAID'&& o.shipmentStatus !== 'DELIVERED'"
+            *ngIf="o.status === 'PAID' && o.shipmentStatus === 'PENDING'"
             (click)="onCancel(o)"
             class="bg-red-500 hover:bg-red-600 text-white font-semibold px-3 py-1 rounded"
           >
             İptal Et
           </button>
+
+          <!-- Kargo Durumu Detayı -->
           <button
-            (click)="trackOrder(o)"
-            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-3 py-1 rounded"
+            (click)="viewDetails(o)"
+            class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-3 py-1 rounded"
           >
-            Takip Et
+            Kargo Detayı
           </button>
+
+          <!-- Kargo Durumunu İlerle -->
           <button
-            *ngIf="shipmentSteps.indexOf(o.shipmentStatus || 'PENDING') < shipmentSteps.length - 1"
+            *ngIf="o.status !== 'CANCELLED' && shipmentSteps.indexOf(o.shipmentStatus || 'PENDING') < shipmentSteps.length - 1"
             (click)="advanceShipment(o)"
             class="bg-green-500 hover:bg-green-600 text-white font-semibold px-3 py-1 rounded"
           >

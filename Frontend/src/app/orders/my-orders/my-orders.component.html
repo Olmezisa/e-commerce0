@@ -39,7 +39,7 @@
           </td>
 
           <!-- 3) Ürünler -->
-           <td class="px-4 py-2">
+           <td class="px-4 py-2 flex gap-2">
             <ul class="list-disc pl-5">
               <li *ngFor="let it of o.items">
                 {{ it.productName }} x{{ it.quantity }}
@@ -47,7 +47,7 @@
                   (click)="onCancelItem(o, it)"
                   class="ml-4 bg-red-500 hover:bg-red-600 text-white text-xs px-2 py-1 rounded"
                   *ngIf="o.status==='PAID'"
-                >Kalemi İptal Et</button>
+                >Refund</button>
               </li>
             </ul>
           </td>
